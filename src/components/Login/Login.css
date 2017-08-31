@@ -1,0 +1,12 @@
+.login {
+    padding-bottom: 20px;
+}
+
+.login label:after {
+    width: 100px;    
+}
+
+.login-button {
+    display: block;
+    margin: auto;
+}
