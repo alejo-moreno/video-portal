@@ -1,5 +1,16 @@
 .video-detail {
-  position: relative; }
+  height: 80vh;
+  overflow: hidden;
+}
+
+.video-detail .video-detail-player {
+  position: relative;
+}
+
+.video-detail .video-detail-related {
+  height: 80vh;
+  overflow-y: auto;
+}
 
 .video-detail .responsive-video {
   width: 100%; }
@@ -8,19 +19,24 @@
   overflow: hidden;
   display: table;
   cursor: pointer;
-  direction: rtl; }
+  direction: rtl; 
+}
 
 .rating span {
   position: absolute;
   right: 10px;
-  font-weight: bold; }
+  font-weight: bold; 
+}
 
 .rating .star {
-  margin: 0 3px; }
+  margin: 0 3px; 
+}
 
 .rating .star-wrapper {
-  display: inline-block; }
+  display: inline-block; 
+}
 
 .rating > .star-wrapper:hover .star,
 .rating > .star-wrapper:hover ~ .star-wrapper {
-  color: yellow; }
+  color: yellow; 
+}

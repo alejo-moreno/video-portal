@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import request from 'superagent'
 import md5 from 'js-md5'
 import {Row, Input, Icon, Button} from 'react-materialize'
+import { withRouter} from 'react-router-dom'
 import './Login.css'
 
 class Login extends Component {
@@ -92,4 +93,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default withRouter(Login)

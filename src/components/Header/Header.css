@@ -1,8 +1,14 @@
 .header {
-    background: #1BC656;
-    text-align: center;
+    background: #3f51b5;
+    text-align: center;    
 }
 
 .header h2 {
     color: white;
+}
+
+.header button {
+        position: absolute;
+        right: 30px;
+        top: 10px;
 }

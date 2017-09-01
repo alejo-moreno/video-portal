@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import request from 'superagent'
 import VideoCard from '../VideoCard'
 import {Row} from 'react-materialize'
+import { withRouter } from 'react-router'
 
 class Home extends Component {
     constructor() {
@@ -27,6 +28,7 @@ class Home extends Component {
                 if (err) 
                     console.error(err)
                 const data = JSON.parse(res.text).data                
+                localStorage.setItem('videos',JSON.stringify(data))
                 that.setState({videos: data})
             });
     }
@@ -35,10 +37,10 @@ class Home extends Component {
         const {videos} = this.state
         return (
             <Row>
-                {videos.map((video) => <VideoCard key={video._id} video={video}/>)}
+                {videos.map((video) => <VideoCard key={video._id} video={video} sCols={12} mCols={4} lCols={3} />)}
             </Row>
         )
     }
 }
 
-export default Home
+export default withRouter(Home)
