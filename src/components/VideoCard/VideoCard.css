@@ -1,0 +1,22 @@
+.video-card {
+    margin: 10px 0;
+    padding: 0 10px;    
+    text-align: center;
+    height: 320px;
+}
+
+.video-card .video-title {
+    height: 55px;
+    display: inline-block;
+    font-weight: bold;
+    cursor: pointer;
+    color: #8bc34a;
+}
+.video-card .video-title:hover {
+    color: #7cb342;
+}
+
+.video-card .video-desc {
+    height: 60px;
+    text-align: left;
+}
