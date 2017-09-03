@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import request from 'superagent'
+import React, { Component } from 'react'
 import md5 from 'js-md5'
-import {Row, Input, Icon, Button} from 'react-materialize'
-import { withRouter} from 'react-router-dom'
+import { Row, Input, Icon, Button } from 'react-materialize'
+import { withRouter } from 'react-router-dom'
+import { authUser } from '../../apiClient'
 import './Login.css'
 
 class Login extends Component {
@@ -25,35 +25,27 @@ class Login extends Component {
 
     handleFormChange(event) {
         const name = event.target.name;
-        this.setState({[name]: event.target.value})
+        this.setState({ [name]: event.target.value })
     }
-    
+
     handleAuthentication(event) {
-        // sends a JSON post body
         event.preventDefault()
         const that = this
-        request
-            .post('http://localhost:3001/user/auth')
-            .send({username: this.state.username, password: md5(this.state.password)})
-            .set('Content-Type', 'application/json')
-            .end(function (err, res) {
-                // Calling the end function will send the request
-                if (err) {                    
-                    return that.setState({error: err.toString().substring(0, 35)})
-                }
+        authUser(this.state.username, md5(this.state.password), function (err, res) {
+            if (err)
+                return that.setState({ error: err.toString().substring(0, 35) })
 
-                const data = JSON.parse(res.text)
-                if (data.sessionId) {
-                    that.setSession(data.sessionId)
-                    that.props.history.push('/home');
-                } else {
-                    that.setState({error: data.error})
-                }
-            })
+            if (res.sessionId) {
+                that.setSession(res.sessionId)
+                that.props.history.push('/home');
+            } else {
+                that.setState({ error: res.error })
+            }
+        })
     }
 
-    setSession(sessionId){        
-        localStorage.setItem('session_id',sessionId)        
+    setSession(sessionId) {
+        localStorage.setItem('session_id', sessionId)
     }
 
     logout() {

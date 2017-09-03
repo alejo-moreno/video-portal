@@ -1,6 +1,5 @@
 .video-detail {
-  height: 80vh;
-  overflow: hidden;
+
 }
 
 .video-detail .video-detail-player {
@@ -8,7 +7,7 @@
 }
 
 .video-detail .video-detail-related {
-  height: 80vh;
+  height: 90vh;
   overflow-y: auto;
 }
 
