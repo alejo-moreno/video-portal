@@ -15,28 +15,20 @@
 .video-detail .responsive-video {
   width: 100%; }
 
-.rating {
-  overflow: hidden;
-  display: table;
-  cursor: pointer;
-  direction: rtl; 
+.rating {   
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.rating span {
-  position: absolute;
-  right: 10px;
-  font-weight: bold; 
+.rating p {   
+  font-weight: bold;  
 }
 
-.rating .star {
-  margin: 0 3px; 
+.rating .fa-star {
+  color: #ffc107;
 }
 
-.rating .star-wrapper {
-  display: inline-block; 
-}
 
-.rating > .star-wrapper:hover .star,
-.rating > .star-wrapper:hover ~ .star-wrapper {
-  color: yellow; 
-}
+
+

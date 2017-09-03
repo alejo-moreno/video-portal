@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Row, Col} from 'react-materialize'
 import request from 'superagent'
-import Star from '../Star'
+import Rating from 'react-rating'
 import VideoCard from '../VideoCard'
 
 import './VideoDetail.css'
@@ -17,6 +17,7 @@ class VideoDetail extends Component {
         }                
         this.getVideo = this.getVideo.bind(this)  
         this.handleChangeVideo = this.handleChangeVideo.bind(this)              
+        this.handleRatingClick = this.handleRatingClick.bind(this)
     }    
 
     componentDidMount(){        
@@ -27,8 +28,23 @@ class VideoDetail extends Component {
         this.getVideo(videoId)        
     }
 
+    handleRatingClick(rating){                
+        request.post('http://localhost:3001/video/ratings')
+            .query({sessionId: localStorage.getItem('session_id')})
+            .send({videoId: this.state.video._id, rating: rating})
+            .set('Content-Type', 'application/json')
+            .end(function (err, res) {
+                // Calling the end function will send the request
+                if (err) {                    
+                    console.error(err)
+                }
+                const data = JSON.parse(res.text).data                                
+                console.log(data)                
+            })
+    }
+
     getVideo(videoId) {  
-        var self = this      
+        const self = this      
         request.get('http://localhost:3001/video')
             .query({
                 sessionId: localStorage.getItem('session_id'),
@@ -45,7 +61,7 @@ class VideoDetail extends Component {
 
     render() {
         const { video } = this.state   
-        let rating = Math.floor(video.ratings.reduce((a,b)=> a+b)/ video.ratings.length)
+        let rating = (video.ratings.reduce((a,b)=> a+b)/ video.ratings.length).toString().substr(0,3)
         const relatedVideos = JSON.parse(localStorage.getItem('videos'))
                                   .map(v => 
                                  <VideoCard key={v._id} video={v} sCols={12} onSelectedVideo={this.handleChangeVideo} />)
@@ -56,13 +72,9 @@ class VideoDetail extends Component {
                     <video className="responsive-video" controls autoPlay>
                         <source src={`../${video.url}`} type="video/mp4"/>
                     </video>
-                    <div className="rating">                    
-                            <Star rating="5" videoId={video._id} />
-                            <Star rating="4" videoId={video._id} />
-                            <Star rating="3" videoId={video._id} />
-                            <Star rating="2" videoId={video._id} />
-                            <Star rating="1" videoId={video._id} />
-                        <span>Average Rating: {rating} </span>                                            
+                    <div className="rating">
+                        <Rating initialRate={rating} empty="fa fa-star-o fa-2x" full="fa fa-star fa-2x"  onChange={this.handleRatingClick} />
+                        <p>Average Rating: {rating}</p>
                     </div>
                     <div className="video-desc">
                         <p>{video.description}</p>

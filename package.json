@@ -10,7 +10,9 @@
     "q": "^1.4.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-lazy-load": "^3.0.12",
     "react-materialize": "^1.0.10",
+    "react-rating": "^0.8.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.12",
     "superagent": "^3.6.0"
