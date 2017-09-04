@@ -1,56 +1,66 @@
 import request from 'superagent'
 
-const prefixDomain = 'http://localhost:3002';
+const prefixDomain = window.location.hostname === 'localhost' ? 'http://localhost:3001': '' ;
 
-export function postVideoRating(videoId, rating, callback) {
-    request.post(prefixDomain + '/video/ratings')
-        .query({ sessionId: localStorage.getItem('session_id') })
-        .send({ videoId: this.state.video._id, rating: rating })
+//POST request for rate a video
+export function postVideoRating(sessionId, videoId, rating, callback) {
+    request
+        .post(prefixDomain + '/video/ratings')
+        .query({sessionId: sessionId})
+        .send({videoId: videoId, rating: rating})
         .set('Content-Type', 'application/json')
         .end(function (err, res) {
-            if (err)
+            if (err) 
                 return console.error(err)
             callback(JSON.parse(res.text).data)
         })
 }
 
-export function getSingleVideo(videoId, callback) {
-    request.get(prefixDomain + '/video')
-        .query({
-            sessionId: localStorage.getItem('session_id'),
-            videoId: videoId
-        })
+//GET request for getting a video by Id
+export function getSingleVideo(sessionId, videoId, callback) {
+    request
+        .get(prefixDomain + '/video')
+        .query({sessionId: sessionId, videoId: videoId})
         .end(function (err, res) {
-            if (err)
+            if (err) 
                 return console.error(err)
             callback(JSON.parse(res.text).data)
         });
 }
 
-export function getVideos(limit, callback) {
+//GET request for getting {limit} videos skipped from start with {skip}
+export function getVideos(sessionId, limit, skip, callback) {
     request
         .get(prefixDomain + '/videos')
-        .query({
-            sessionId: localStorage.getItem('session_id'),
-            limit: limit
-        })
+        .query({sessionId: sessionId, limit: limit, skip: skip})
         .end(function (err, res) {
-            if (err)
+            if (err) 
                 return console.error(err)
-            console.log(res)
-            let data = JSON.parse(res.text).data
-            localStorage.setItem('videos', JSON.stringify(data))
-            callback(data)
+            callback(JSON.parse(res.text).data)
         });
 }
 
+//POST request for authenticating users
 export function authUser(username, password, callback) {
     request
         .post(prefixDomain + '/user/auth')
-        .send({ username: username, password: password })
+        .send({username: username, password: password})
         .set('Content-Type', 'application/json')
         .end(function (err, res) {
-            if (err)
+            if (err) 
+                return callback(err)
+            callback(null, JSON.parse(res.text))
+        })
+}
+
+//POST request for authenticating users
+export function logoutUser(sessionId, callback) {
+    request
+        .get(prefixDomain + '/user/logout')
+        .query({sessionId: sessionId})
+        .set('Content-Type', 'application/json')
+        .end(function (err, res) {
+            if (err) 
                 return callback(err)
             callback(null, JSON.parse(res.text))
         })

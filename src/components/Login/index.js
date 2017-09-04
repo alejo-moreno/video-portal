@@ -15,6 +15,7 @@ class Login extends Component {
             error: ''
         }
 
+        //bind `this` to methods 
         this.handleAuthentication = this
             .handleAuthentication
             .bind(this)
@@ -23,11 +24,13 @@ class Login extends Component {
             .bind(this)
     }
 
+    //Sets username and password inputs to state
     handleFormChange(event) {
         const name = event.target.name;
         this.setState({ [name]: event.target.value })
     }
 
+    //Authenticate users through username and MD5 encrypted password 
     handleAuthentication(event) {
         event.preventDefault()
         const that = this
@@ -44,15 +47,10 @@ class Login extends Component {
         })
     }
 
+    //Set session id to localStorage for later use
     setSession(sessionId) {
         localStorage.setItem('session_id', sessionId)
-    }
-
-    logout() {
-        localStorage.setItem('session_id')
-        localStorage.setItem('expires_at')
-        this.props.history.push('/')
-    }
+    }    
 
     render() {
         return (

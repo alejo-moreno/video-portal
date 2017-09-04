@@ -11,6 +11,7 @@ class VideoCard extends Component {
         this.handleVideoChange = this.handleVideoChange.bind(this);               
       }
 
+      //Pass video id to component's parent on title clicked
       handleVideoChange(e){          
           this.props.onSelectedVideo(this.props.video._id)
       }
@@ -18,7 +19,11 @@ class VideoCard extends Component {
 
     render() {                
         const {video} = this.props        
-        let description = video.description.length > 70 ? video.description.substring(0,70)+' [...Read More]' : video.description
+
+        //limits description to 70 characters
+        let description = video.description.length > 70 ? video.description.substring(0,70)+'...' : video.description
+
+        //Get average rating from video
         let rating = parseInt((video.ratings.reduce((a,b)=> a+b)/ video.ratings.length).toString().substr(0,3))
         return (             
                 <Col s={this.props.sCols} m={this.props.mCols} l={this.props.lCols}>
@@ -27,7 +32,7 @@ class VideoCard extends Component {
                             <p>{video.name}</p>
                         </Link>
                         <video className="responsive-video" preload="metadata" controls>
-                            <source src={`../${video.url}`} type="video/mp4"/>
+                            <source src={`/${video.url}`} type="video/mp4"/>
                         </video>
                         <Rating initialRate={rating} full="fa fa-star" empty="fa fa-star-o" readonly />
                         <div className="video-desc">

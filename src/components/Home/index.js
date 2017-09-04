@@ -17,14 +17,17 @@ class Home extends Component {
         this.videoList()
     }
 
-    videoList() {
-        const that = this
-        getVideos(20, function (res) {
-            that.setState({ videos: res })
-            that.setupUniqueVideoPlaying()
+    //Get videos and set them to component's state
+    videoList() {   
+        const self = this //preserving this for later use
+        getVideos(localStorage.getItem('session_id'),40,0, function (res) {
+            localStorage.setItem('videos', JSON.stringify(res))
+            self.setState({ videos: res })
+            self.setupUniqueVideoPlaying()
         })
     }
 
+    //Prevent multiple videos to be played simultaneously
     setupUniqueVideoPlaying() {
         document.addEventListener('play', function (e) {
             var videos = document.getElementsByTagName('video');
@@ -36,6 +39,7 @@ class Home extends Component {
         }, true);
     }
 
+    //Render 4 videos for every row and lazy load next ones
     render() {
         const { videos } = this.state
         let lazyRows = [],
@@ -53,7 +57,7 @@ class Home extends Component {
                 lCols={3} />)
             if ((index + 1) % 4 === 0) {
                 lazyRows.push(
-                    <LazyLoad key={index} offsetVertical={0} height={340}>
+                    <LazyLoad key={index} offsetVertical={200} height={340}>
                         <div>
                             {videoRows}
                         </div>
