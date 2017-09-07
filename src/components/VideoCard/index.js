@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import Rating from 'react-rating'
 import './VideoCard.css'
 
+
 class VideoCard extends Component {
 
       constructor(props) {
@@ -27,7 +28,7 @@ class VideoCard extends Component {
         let rating = parseInt((video.ratings.reduce((a,b)=> a+b)/ video.ratings.length).toString().substr(0,3))
         return (             
                 <Col s={this.props.sCols} m={this.props.mCols} l={this.props.lCols}>
-                    <div className="video-card z-depth-4">
+                    <div className="video-card z-depth-4" data-index={this.props.index}>
                         <Link onClick={this.handleVideoChange} to={`/video/${video._id}`} className="video-title">
                             <p>{video.name}</p>
                         </Link>
